@@ -39,7 +39,9 @@ class MidiEncoder:
             body += cls._variable_length(duration * step)
             body += bytes((0x80 | channel, pitch, 0))
             cursor = (start + duration) * step
-        return cls._track(body + b"\x00\xff\x2f\x00")
+        remaining = len(voice) * step - cursor
+        body += cls._variable_length(remaining) + b"\xff\x2f\x00"
+        return cls._track(body)
 
     @classmethod
     def _track(cls, body):

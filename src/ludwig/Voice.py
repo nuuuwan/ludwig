@@ -2,16 +2,8 @@ import re
 
 
 class Voice:
-    TOKEN_PATTERN = r"[A-G][0-9]?|[-.]"
-    PITCHES = {
-        "C": 60,
-        "D": 62,
-        "E": 64,
-        "F": 65,
-        "G": 67,
-        "A": 69,
-        "B": 71,
-    }
+    TOKEN_PATTERN = r"[A-G]#?(?:-1|[0-9])?|[-.]"
+    PITCHES = dict(zip("CDEFGAB", (60, 62, 64, 65, 67, 69, 71)))
 
     def __init__(self, notation):
         if not isinstance(notation, str) or not notation:
@@ -33,23 +25,29 @@ class Voice:
 
     def _validate_pitches(self):
         for token in self._tokens:
-            if len(token) == 2:
+            if token[-1].isdigit():
                 self._explicit_pitch(token)
 
     @classmethod
     def _explicit_pitch(cls, token):
-        pitch = cls.PITCHES[token[0]] + 12 * (int(token[1]) - 4)
+        index = 2 if "#" in token else 1
+        octave = int(token[index:])
+        pitch = cls._pitch_class(token) + 12 * (octave + 1)
         if not 0 <= pitch <= 127:
             raise ValueError(f"Pitch outside MIDI range: {token}")
         return pitch
 
     @classmethod
+    def _pitch_class(cls, token):
+        return cls.PITCHES[token[0]] % 12 + ("#" in token)
+
+    @classmethod
     def _resolve_pitch(cls, token, previous):
-        if len(token) == 2:
+        if token[-1].isdigit():
             return cls._explicit_pitch(token)
         if previous is None:
-            return cls.PITCHES[token]
-        pitch_class = cls.PITCHES[token] % 12
+            return 60 + cls._pitch_class(token)
+        pitch_class = cls._pitch_class(token)
         lower = previous - (previous - pitch_class) % 12
         candidates = (lower, lower + 12)
         valid = (pitch for pitch in candidates if 0 <= pitch <= 127)

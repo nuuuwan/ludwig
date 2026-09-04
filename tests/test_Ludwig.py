@@ -12,6 +12,7 @@ class TestLudwig(unittest.TestCase):
             (7, [(0, 2, 71), (2, 2, 72), (5, 2, 74)]),
         )
         self.assertEqual(Voice("C4-B-").transpose(-12).events()[-1][-1], 47)
+        self.assertEqual(Voice("C#-1-").events(), [(0, 2, 1)])
 
     def test_voices_add_sequentially(self):
         first = Voice("C-")
@@ -87,7 +88,6 @@ class TestLudwig(unittest.TestCase):
     def test_voice_rejects_invalid_notation(self):
         with self.assertRaisesRegex(ValueError, "Invalid voice symbols"):
             Voice("C-X")
-
         with self.assertRaisesRegex(ValueError, "outside MIDI range"):
             Voice("B9")
 

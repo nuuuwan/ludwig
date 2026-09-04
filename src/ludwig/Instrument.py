@@ -1,14 +1,9 @@
+from ludwig.MidiPrograms import MidiPrograms
 from ludwig.Voice import Voice
 
 
 class Instrument:
-    PROGRAMS = {
-        "Acoustic Grand Piano": 0,
-        "Cello": 42,
-        "Pipe Organ": 19,
-        "Viola": 41,
-        "Violin": 40,
-    }
+    PROGRAMS = MidiPrograms.PROGRAMS
 
     def __init__(self, name):
         if name not in self.PROGRAMS:
