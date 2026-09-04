@@ -6,7 +6,7 @@ from ludwig import Instrument, Note, Piece, Tempo
 instruments = []
 for i in range(1, 7):
     note_num = int(round(12 * math.log2(10 * i), 0))
-    instrument = Instrument("Pipe Organ")[
+    instrument = Instrument("Pad 1 (new age)")[
         ".." * (2 * i) + f"{Note(note_num)}" + "-" * 31 + ".." * (16 - 2 * i)
     ]
     instruments.append(instrument)

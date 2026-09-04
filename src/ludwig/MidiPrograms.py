@@ -37,4 +37,3 @@ class MidiPrograms:
     )
     NAMES = tuple(name for group in GROUPS for name in group.split("|"))
     PROGRAMS = dict(zip(NAMES, range(len(NAMES))))
-    PROGRAMS.update({"Pipe Organ": 19, "Warm Pad": 89})
