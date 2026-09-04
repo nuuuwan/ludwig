@@ -1,6 +1,7 @@
 class Instrument:
     PROGRAMS = {
         "Acoustic Grand Piano": 0,
+        "Pipe Organ": 19,
         "Violin": 40,
     }
 

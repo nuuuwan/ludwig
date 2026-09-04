@@ -72,3 +72,13 @@ class Piece:
             )
         )
         return output_path
+
+    def transpose(self, semitones):
+        voices = tuple(voice.transpose(semitones) for voice in self.voices)
+        return Piece(
+            self.instrument,
+            self.key,
+            self.time,
+            self.tempo,
+            *voices,
+        )
