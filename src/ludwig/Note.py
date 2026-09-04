@@ -19,6 +19,7 @@ class Note:
             raise TypeError("Note number must be an integer")
         if not 0 <= number <= 127:
             raise ValueError("Note number outside supported range")
+        self.number = number
         octave, name_index = divmod(number, len(self.NAMES))
         self.name = self.NAMES[name_index]
         self.octave = octave - 1
