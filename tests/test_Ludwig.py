@@ -42,11 +42,13 @@ class TestLudwig(unittest.TestCase):
         data = path.read_bytes()
         self.assertEqual(result, path)
         self.assertEqual(data[:4], b"MThd")
-        self.assertEqual(int.from_bytes(data[10:12], "big"), 6)
-        self.assertEqual(data.count(b"MTrk"), 6)
+        self.assertEqual(int.from_bytes(data[10:12], "big"), 5)
+        self.assertEqual(data.count(b"MTrk"), 5)
         self.assertIn(b"\x00\xff\x51\x03\x07\xa1\x20", data)
-        self.assertEqual(data.count(b"\x00\xc0\x13"), 1)
-        self.assertEqual(data.count(b"\x00\xc1\x13"), 1)
+        self.assertEqual(data.count(b"\x00\xc0\x28"), 1)
+        self.assertEqual(data.count(b"\x00\xc1\x28"), 1)
+        self.assertEqual(data.count(b"\x00\xc2\x29"), 1)
+        self.assertEqual(data.count(b"\x00\xc3\x2a"), 1)
 
     def test_piece_infers_parameters_in_any_order(self):
         piece = Piece(

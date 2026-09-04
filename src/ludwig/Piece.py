@@ -26,6 +26,9 @@ class Piece:
         self.tempo = self._resolve(parameters, Tempo, Tempo(120))
         self._validate_voices(self.voices)
         self._validate_voice_lengths(self.voices)
+        self.instruments = tuple(
+            voice.instrument or self.instrument for voice in self.voices
+        )
 
     @staticmethod
     def _validate_parameters(parameters):
@@ -64,7 +67,7 @@ class Piece:
         output_path.parent.mkdir(parents=True, exist_ok=True)
         output_path.write_bytes(
             MidiEncoder.encode(
-                self.instrument,
+                self.instruments,
                 self.key,
                 self.time,
                 self.tempo,

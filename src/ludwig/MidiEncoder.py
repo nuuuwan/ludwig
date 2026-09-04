@@ -2,11 +2,13 @@ class MidiEncoder:
     TICKS_PER_BEAT = 480
 
     @classmethod
-    def encode(cls, instrument, key, time, tempo, voices):
+    def encode(cls, instruments, key, time, tempo, voices):
         tracks = [cls._metadata_track(key, time, tempo)]
         tracks.extend(
             cls._voice_track(instrument, voice, index)
-            for index, voice in enumerate(voices)
+            for index, (instrument, voice) in enumerate(
+                zip(instruments, voices)
+            )
         )
         header = b"MThd" + (6).to_bytes(4, "big")
         header += (1).to_bytes(2, "big")

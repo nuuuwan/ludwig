@@ -29,6 +29,7 @@ class Voice:
         self._validate_pitches()
         self.notation = notation
         self._semitones = 0
+        self.instrument = None
 
     def _validate_pitches(self):
         for token in self._tokens:
@@ -86,6 +87,7 @@ class Voice:
             raise ValueError("Transposed pitch outside MIDI range")
         voice = Voice(self.notation)
         voice._semitones = self._semitones + semitones
+        voice.instrument = self.instrument
         return voice
 
     def __len__(self):
